@@ -24,6 +24,23 @@
 
 @implementation TouchID
 
+
+- (void)isHardwareAvailable:(CDVInvokedUrlCommand *)command{
+    self.laContext = [[LAContext alloc] init];
+    NSError *canEvaluteError = nil;
+    BOOL touchIDAvailable = [self.laContext canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&canEvaluteError];
+    
+    if(touchIDAvailable || canEvaluteError.code != LAErrorTouchIDNotAvailable){
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }
+    else{
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: @"Touch ID not available"];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }
+}
+
+
 - (void)isAvailable:(CDVInvokedUrlCommand*)command{
     self.laContext = [[LAContext alloc] init];
     BOOL touchIDAvailable = [self.laContext canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:nil];

@@ -2,6 +2,9 @@ var argscheck = require('cordova/argscheck'),
                exec = require('cordova/exec');
 
 var touchid = {
+	isHardwareAvailable: function(successCallback, errorCallback){
+		exec(successCallback, errorCallback, "TouchID", "isHardwareAvailable", []);
+	},
 	isAvailable: function(successCallback, errorCallback){
 		exec(successCallback, errorCallback, "TouchID", "isAvailable", []);
 	},

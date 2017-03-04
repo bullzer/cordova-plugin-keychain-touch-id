@@ -211,6 +211,18 @@ public class FingerprintAuth extends CordovaPlugin {
                 mCallbackContext.sendPluginResult(mPluginResult);
             }
             return true;
+        } else if (action.equals("isHardwareAvailable")){
+            JSONObject resultJson = new JSONObject();
+            if (isHardwareFingerprintAuthAvailable()) {
+                mPluginResult = new PluginResult(PluginResult.Status.OK);
+                mCallbackContext.success("YES");
+                mCallbackContext.sendPluginResult(mPluginResult);
+            } else {
+                mPluginResult = new PluginResult(PluginResult.Status.ERROR);
+                mCallbackContext.error("NO");
+                mCallbackContext.sendPluginResult(mPluginResult);
+            }
+            return true;
         } else if (action.equals("setLocale")) {            // Set language
             mLangCode = args.getString(0);
             Resources res = cordova.getActivity().getResources();
@@ -257,7 +269,9 @@ public class FingerprintAuth extends CordovaPlugin {
     private boolean isFingerprintAuthAvailable() {
         return mFingerPrintManager.isHardwareDetected() && mFingerPrintManager.hasEnrolledFingerprints();
     }
-
+    private boolean isHardwareFingerprintAuthAvailable() {
+        return mFingerPrintManager.isHardwareDetected();
+    }
     /**
      * Initialize the {@link Cipher} instance with the created key in the {@link #createKey()}
      * method.
