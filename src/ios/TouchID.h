@@ -29,6 +29,7 @@
 @property (strong, nonatomic) KeychainWrapper* MyKeychainWrapper;
 @property (strong, nonatomic) LAContext* laContext;
 
+- (void) isHardwareAvailable: (CDVInvokedUrlCommand*)command;
 - (void) isAvailable:(CDVInvokedUrlCommand*)command;
 - (void) has:(CDVInvokedUrlCommand*)command;
 - (void) save:(CDVInvokedUrlCommand*)command;
